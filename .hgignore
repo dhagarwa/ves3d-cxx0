@@ -1,0 +1,22 @@
+syntax: glob
+*~
+*.out
+*.exe
+*.pbs
+*.txt
+*.chk
+*.tar
+*.bk
+*.d
+bin
+results/
+precomputed
+scratch/
+data/
+docs/html/
+docs/latex/
+TAGS
+my_*
+
+syntax: regexp
+\.[oa]

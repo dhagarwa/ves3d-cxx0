@@ -1,0 +1,11 @@
+# -*- mode: sh; -*-
+
+module load c7 intel mpich2 fftw3 mkl matlab petsc
+
+export CUDA_DIR=${CUDA_LIB}/../
+export CUDA_PATH=${CUDA_LIB}/../
+
+export FFTW_ROOT=$FFTW_DIR
+export OMP_NUM_THREADS=16
+
+export VES3D_PLATFORM=cafu

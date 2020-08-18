@@ -1,0 +1,55 @@
+# 3D particulate flow simulation code. #
+---
+
+## Before build: ##
+---
+1. Copy the ves3d project files to the install location and make an
+    environment variable pointing to that location:
+```
+#!shell
+    $ cd ves3d-cxx
+    $ export VES3D_DIR=`pwd`
+```
+
+1. In makefile.in.files directory, make a file for the machine you're
+installing VES3D. You can copy one of the existing machine files, for
+example
+```
+#!shell
+    $ cd makefile.in.files
+    $ cp makefile.octane makefile.`hostname -s`
+```
+You can alternatively use one of the existing host files by passing
+the VES3D_PLATFORM variable to make.
+
+1. In the platform specific makefile you created in the previous step,
+    set the correct include paths for libraries
+
+1. If the makefile corresponding to your choice of compiler does
+    not exist, you also need to write that makefile (with the correct
+    extension)
+
+ 1. Optionally add makefile.<hostname> to hg for future reference
+
+## Building: ##
+---
+ 1. cd to VES3D_DIR and
+```
+#!shell
+
+    $ make
+    $ make test
+    $ make check
+```
+
+ 1. If the code compiles fine and tests pass, run
+```
+#!shell
+
+    $ make install
+```
+## Misc: ##
+---
+1. Code-specific compiler options are: VERBOSE, PROFILING, VES3D_TESTING, VES3D_USE_GPU, VES3D_USE_PVFMM
+1. If you want the GPU code compiled set "VES3D_USE_GPU=yes" in makefile.<hostname>
+1. Fully functional revisions of code are tagged by vYY.ID (YY is year and ID is an integer)

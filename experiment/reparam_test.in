@@ -1,0 +1,37 @@
+## spherical harmonics -----------------------
+sh-order : 16
+
+## far filed ---------------------------------
+bg-flow-type : TwisterFlow
+bg-flow-param : 0.05
+
+## reparametrization -------------------------
+rep-max-iter : 5000
+rep-timestep : 1e-3
+rep-tol : 1e-5
+rep-upsample
+
+## initial shape -----------------------------
+n-surfs : 1
+bending-modulus : .001
+shape-gallery-file : precomputed/shape_gallery_{{sh_order}}.txt
+vesicle-geometry-file : precomputed/lattice_geometry_spec.txt
+
+## time stepping -----------------------------
+time-horizon : 50
+timestep : .2
+time-tol : 1e-3
+time-iter-max : 100
+time-scheme : GloballyImplicit
+time-precond : DiagonalSpectral
+singular-stokes : Direct
+error-factor : 1
+solve-for-velocity
+
+## checkpoint/monitor ------------------------
+checkpoint
+checkpoint-file : reparamtest_{{time_idx}}.chk
+write-vtk
+
+## misc --------------------------------------
+num-threads : 4

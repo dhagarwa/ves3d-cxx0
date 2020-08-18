@@ -1,0 +1,31 @@
+# -*- mode: makefile -*-
+MAKE_DEP += ${VES3D_MKDIR}/makefile.ronaldo
+
+# flags for default
+VES3D_TESTING    = yes
+VES3D_USE_PVFMM  = yes
+VES3D_USE_PETSC  = yes
+VES3D_PETSC_VER  = 35
+
+include ${VES3D_MKDIR}/makefile.default
+
+# customization ##########################################
+# compiler
+ifeq ($(strip ${COMPILER_VENDOR}),intel)
+ BLASPKG        = HAS_MKL
+ BLAS_LDFLAGS   = -L${ICES_MKL_LIB}
+ BLAS_LDLIBS    = -mkl
+ BLAS_INCLUDE   = -I${ICES_MKL_INC}
+else
+ BLASPKG        = HAS_BLAS
+ BLAS_LDFLAGS   = -L/usr/lib64/
+ BLAS_LDLIBS    = -llapack -lblas
+ BLAS_INCLUDE   =
+endif
+
+CXXFLAGS       += -D${BLASPKG} ${BLAS_INCLUDE}
+
+# linker
+LDFLAGS        += ${BLAS_LDFLAGS}
+LDLIBS         += $(BLAS_LDLIBS)
+

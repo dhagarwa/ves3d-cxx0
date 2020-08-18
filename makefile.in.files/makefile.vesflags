@@ -1,0 +1,42 @@
+# -*- mode: makefile -*-
+ifeq ($(strip $(VES3D_TESTING)),yes)
+  VES3D_DEBUG   = yes
+  VES3D_PROFILE	= yes
+endif
+
+ifeq ($(strip ${VES3D_PROFILE}),yes)
+  CXXFLAGS += -DPROFILING
+endif
+
+ifeq ($(strip ${VES3D_VERBOSE}),3)
+  CXXFLAGS += -DQUIET
+else ifeq ($(strip ${VES3D_VERBOSE}),1)
+  CXXFLAGS += -DVERBOSE
+endif
+
+ifeq ($(strip ${VES3D_DEBUG}),no)
+  CXXFLAGS += -DNDEBUG
+endif
+
+ifeq ($(strip ${VES3D_PERC}),SINGLE)
+  CXXFLAGS += -DSINGLE_PREC
+else
+  CXXFLAGS += -DDOUBLE_PREC
+endif
+
+ifeq ($(strip ${VES3D_USE_PVFMM}),yes)
+  VES3D_USE_MPI = yes
+endif
+
+ifeq ($(strip ${VES3D_USE_PETSC}),yes)
+  CXXFLAGS += -DHAS_PETSC
+  VES3D_USE_MPI = yes
+endif
+
+ifneq ($(strip ${VES3D_PETSC_VER}),"")
+  CXXFLAGS += -DPETSC_VERSION=$(strip ${VES3D_PETSC_VER})
+endif
+
+ifeq ($(strip ${VES3D_USE_MPI}),yes)
+  CXXFLAGS += -DHAS_MPI
+endif

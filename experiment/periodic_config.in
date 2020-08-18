@@ -1,0 +1,39 @@
+## spherical harmonics -----------------------
+sh-order : 16
+rep-upsample
+interaction-upsample
+
+## initial shape -----------------------------
+n-surfs : 500
+bending-modulus : .01
+shape-gallery-file : precomputed/shape_gallery_{{sh_order}}.txt
+vesicle-geometry-file : precomputed/geometry_spec_periodic.txt
+
+## time stepping -----------------------------
+time-horizon : 1000
+timestep : 2e-1
+time-tol : 1e-5
+time-iter-max : 300
+time-scheme : GloballyImplicit
+time-precond : DiagonalSpectral
+singular-stokes : Direct
+error-factor : 1
+solve-for-velocity
+time-adaptive
+
+## reparametrization -------------------------
+rep-max-iter : 1000
+rep-timestep : 1e-3
+rep-tol : 1e-6
+
+## checkpoint/monitor ------------------------
+checkpoint
+checkpoint-file : experiment/taylor6_ns{{n_surfs}}_rank{{rank}}_nproc{{nprocs}}_{{time_idx}}.chk
+
+## far filed ---------------------------------
+bg-flow-type : TaylorFlow
+bg-flow-param : 0.1
+
+## misc  -------------------------------------
+num-threads : 16
+periodic-length : 17

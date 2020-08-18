@@ -1,0 +1,34 @@
+# -*- mode: makefile -*-
+###################################################################
+## Should only define/adjust CXXFLAGS, CPPFLAGS, LDFLAGS, LDLIBS ##
+###################################################################
+
+MAKE_DEP += ${VES3D_MKDIR}/makefile.intel
+
+CXXFLAGS += -openmp -fPIC -early-template-check -Wall 
+
+ifeq ($(strip ${VES3D_PLATFORM}),mercer)
+  CXXFLAGS += -xSSE4.2 -axAVX
+else
+  CXXFLAGS += -mavx
+endif
+
+ifeq ($(strip ${VES3D_DEBUG}),yes)
+  CXXFLAGS += -g -O0 -fp-model precise -mp1 -debug full -fno-inline #-Werror
+else
+  CXXFLAGS += -O3 -finline  -unroll-aggressive -malign-double 
+endif
+
+ifneq ($(strip ${VES3D_PLATFORM}),lonestar)
+  CXXFLAGS += -fno-exceptions
+endif
+
+## for ref, these are the implicit rule gnu make uses for compile/link
+# f: f.cc
+# 	[CXX] [CXXFLAGS] [CPPFLAGS] [LDFLAGS]  f.cc [LOAD] [LDLIBS] -o f
+#
+# f.o : n.cc
+#       [CXX] [CXXFLAGS] [CPPFLAGS]  -c -o f.o f.cc
+#
+# f : f.o
+# 	[CXX] [LDFLAGS]  f.o [LOAD] [LDLIBS] -o f
